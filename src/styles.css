@@ -57,6 +57,22 @@ a { color: inherit; }
 h1, h2, h3, p { margin: 0; }
 .stack { display: grid; gap: 14px; }
 .field { display: grid; gap: 6px; }
+.password-wrap { position: relative; }
+.password-wrap input { padding-right: 72px; }
+.password-toggle {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  min-height: 32px;
+  padding: 0 10px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
 .field span, .label {
   font-size: 0.78rem;
   font-weight: 600;

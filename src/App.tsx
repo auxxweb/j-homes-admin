@@ -58,6 +58,7 @@ export function AdminApp() {
 function Login({ onSuccess }: { onSuccess: (user: User) => void }) {
   const [email, setEmail] = useState('admin@jhomes.in')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
 
@@ -100,7 +101,12 @@ function Login({ onSuccess }: { onSuccess: (user: User) => void }) {
           </label>
           <label className="field">
             <span>Password</span>
-            <input type="password" autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} required />
+            <div className="password-wrap">
+              <input type={showPassword ? 'text' : 'password'} autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} required />
+              <button className="password-toggle" type="button" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? 'Hide password' : 'Show password'}>
+                {showPassword ? 'Hide' : 'Show'}
+              </button>
+            </div>
           </label>
           {error ? <p className="error">{error}</p> : null}
           <button className="btn accent" disabled={busy} type="submit">{busy ? 'Signing in…' : 'Sign in'}</button>
@@ -1342,6 +1348,13 @@ function Settings() {
   const { site, setSiteId } = useSiteState()
   const [settings, setSettings] = useState<Record<string, unknown>>({})
   const [message, setMessage] = useState('')
+  const [passwordMessage, setPasswordMessage] = useState('')
+  const [passwordError, setPasswordError] = useState('')
+  const [currentPassword, setCurrentPassword] = useState('')
+  const [nextPassword, setNextPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [showCurrent, setShowCurrent] = useState(false)
+  const [showNext, setShowNext] = useState(false)
   useEffect(() => {
     setSettings(site?.settings || {})
   }, [site])
@@ -1383,6 +1396,55 @@ function Settings() {
         </div>
         {message ? <p className="note">{message}</p> : null}
         <button className="btn accent" type="submit">Save settings</button>
+      </form>
+      <form
+        className="card editor"
+        style={{ marginTop: 24 }}
+        onSubmit={(event) => {
+          event.preventDefault()
+          setPasswordError('')
+          setPasswordMessage('')
+          if (nextPassword !== confirmPassword) {
+            setPasswordError('The new passwords do not match.')
+            return
+          }
+          void api('/api/account/password', { method: 'POST', body: JSON.stringify({ current: currentPassword, next: nextPassword }) })
+            .then(() => {
+              setPasswordMessage('Password updated. Use the new password the next time you sign in.')
+              setCurrentPassword('')
+              setNextPassword('')
+              setConfirmPassword('')
+            })
+            .catch((reason) => setPasswordError(reason instanceof Error ? reason.message : 'The password could not be updated.'))
+        }}
+      >
+        <div className="page-title">
+          <p className="eyebrow">Account</p>
+          <h2 className="serif" style={{ fontSize: '1.6rem' }}>Change password</h2>
+        </div>
+        <label className="field">
+          <span>Current password</span>
+          <div className="password-wrap">
+            <input type={showCurrent ? 'text' : 'password'} autoComplete="current-password" value={currentPassword} onChange={(event) => setCurrentPassword(event.target.value)} required />
+            <button className="password-toggle" type="button" onClick={() => setShowCurrent((value) => !value)}>{showCurrent ? 'Hide' : 'Show'}</button>
+          </div>
+        </label>
+        <div className="pair">
+          <label className="field">
+            <span>New password</span>
+            <div className="password-wrap">
+              <input type={showNext ? 'text' : 'password'} autoComplete="new-password" value={nextPassword} onChange={(event) => setNextPassword(event.target.value)} required minLength={6} />
+              <button className="password-toggle" type="button" onClick={() => setShowNext((value) => !value)}>{showNext ? 'Hide' : 'Show'}</button>
+            </div>
+          </label>
+          <label className="field">
+            <span>Confirm new password</span>
+            <input type={showNext ? 'text' : 'password'} autoComplete="new-password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} required minLength={6} />
+          </label>
+        </div>
+        {passwordError ? <p className="error">{passwordError}</p> : null}
+        {passwordMessage ? <p className="note">{passwordMessage}</p> : null}
+        <button className="btn accent" type="submit">Update password</button>
       </form>
     </main>
   )
