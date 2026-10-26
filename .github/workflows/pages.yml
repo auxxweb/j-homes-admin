@@ -30,7 +30,7 @@ jobs:
       - name: Build the admin app
         env:
           VITE_BASE: /
-          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          VITE_API_URL: ${{ secrets.VITE_API_URL || 'https://server.jhomes.in' }}
         run: npm run build
       - name: Upload the site
         uses: actions/upload-pages-artifact@v3
