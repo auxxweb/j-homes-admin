@@ -11,6 +11,7 @@ import {
   type ChecklistRecord,
   type EnquiryRecord,
   type EntryRecord,
+  mediaSrc,
   type MediaRecord,
   type PageContent,
   type PageRecord,
@@ -1318,7 +1319,7 @@ function MediaLibrary() {
       <div className="gallery-grid">
         {items.map((item) => (
           <article className="item" key={item._id}>
-            {item.resourceType === 'video' ? <video className="thumb" src={item.url} controls /> : <img className="thumb" src={item.url} alt={item.alt} />}
+            {item.resourceType === 'video' ? <video className="thumb" src={mediaSrc(item.url)} controls /> : <img className="thumb" src={mediaSrc(item.url)} alt={item.alt} />}
             <p className="meta">{item.alt || item.resourceType}</p>
             <div className="uses">
               <p className="meta">Used in</p>

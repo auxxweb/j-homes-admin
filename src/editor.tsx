@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { Field } from './schema'
 import { readPath, writePath } from './schema'
-import { api, apiBase, type MediaRecord } from './api'
+import { api, mediaSrc, type MediaRecord } from './api'
 
 export function Editor({
   fields,
@@ -213,7 +213,7 @@ export function ImageField({
   return (
     <label className="field">
       <span>{label}</span>
-      {url ? <img className="thumb" src={url.startsWith('http') ? url : `${apiBase}${url}`} alt="" /> : null}
+      {url ? <img className="thumb" src={mediaSrc(url)} alt="" /> : null}
       <input value={url} onChange={(event) => onChange(event.target.value)} placeholder="Image address" />
       <input
         type="file"

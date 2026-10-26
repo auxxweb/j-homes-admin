@@ -1,4 +1,14 @@
-export const apiBase = (import.meta.env.VITE_API_URL || 'http://localhost:4000').replace(/\/$/, '')
+export const apiBase = (
+  import.meta.env.VITE_API_URL || (import.meta.env.PROD ? 'https://server.jhomes.in' : 'http://localhost:4000')
+).replace(/\/$/, '')
+
+export function mediaSrc(url: string) {
+  if (!url) return ''
+  if (/^https?:\/\//i.test(url) || url.startsWith('data:')) return url
+  if (url.startsWith('/uploads/')) return `${apiBase}${url}`
+  if (url.startsWith('/')) return `https://www.jhomes.in${url}`
+  return url
+}
 
 const TOKEN_KEY = 'jhomes-admin-token'
 const SITE_KEY = 'jhomes-admin-site'
