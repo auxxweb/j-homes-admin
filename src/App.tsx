@@ -56,7 +56,7 @@ export function AdminApp() {
 }
 
 function Login({ onSuccess }: { onSuccess: (user: User) => void }) {
-  const [email, setEmail] = useState('admin@jhomes.in')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
@@ -97,12 +97,12 @@ function Login({ onSuccess }: { onSuccess: (user: User) => void }) {
           </div>
           <label className="field">
             <span>Email</span>
-            <input type="email" autoComplete="username" value={email} onChange={(event) => setEmail(event.target.value)} required />
+            <input type="email" autoComplete="off" placeholder="Enter your email" value={email} onChange={(event) => setEmail(event.target.value)} required />
           </label>
           <label className="field">
             <span>Password</span>
             <div className="password-wrap">
-              <input type={showPassword ? 'text' : 'password'} autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} required />
+              <input type={showPassword ? 'text' : 'password'} autoComplete="off" placeholder="Enter your password" value={password} onChange={(event) => setPassword(event.target.value)} required />
               <button className="password-toggle" type="button" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? 'Hide password' : 'Show password'}>
                 {showPassword ? 'Hide' : 'Show'}
               </button>
