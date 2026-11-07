@@ -189,7 +189,7 @@ function Shell({ user, onSignOut }: { user: User; onSignOut: () => void }) {
         <div className="workspace">
           <header className="topbar">
             <button className="icon-btn menu-toggle" type="button" aria-label="Open menu" onClick={() => setOpen(true)}>
-              Menu
+              <span className="hamburger" aria-hidden="true" />
             </button>
             <div>
               <strong>{site?.name || 'Website'}</strong>
@@ -833,7 +833,7 @@ function ChecklistTable({
                   <td><span className={`status ${item.status}`}>{item.status}</span></td>
                   <td>
                     {item.pdfUrl
-                      ? <a href={item.pdfUrl} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()}>Open PDF</a>
+                      ? <a href={mediaSrc(item.pdfUrl)} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()}>Open PDF</a>
                       : '—'}
                   </td>
                   <td>{listedAt(item.submittedAt || item.createdAt)}</td>

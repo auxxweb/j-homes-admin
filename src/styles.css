@@ -196,11 +196,25 @@ input:focus, textarea:focus, select:focus { border-color: #c9a9a4; box-shadow: 0
 .hub-card strong { font-size: 1.05rem; }
 .hub-card:hover { border-color: #c9a9a4; }
 .icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 44px;
   height: 44px;
+  padding: 0;
   border-radius: 12px;
   border: 1px solid var(--line);
   background: #fff;
+  color: var(--ink);
+}
+.hamburger {
+  width: 18px;
+  height: 12px;
+  display: block;
+  background:
+    linear-gradient(currentColor, currentColor) 0 0 / 100% 2px no-repeat,
+    linear-gradient(currentColor, currentColor) 0 50% / 100% 2px no-repeat,
+    linear-gradient(currentColor, currentColor) 0 100% / 100% 2px no-repeat;
 }
 .content { padding: 18px 16px 40px; display: grid; gap: 16px; }
 .page-title { display: grid; gap: 6px; }

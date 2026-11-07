@@ -4,10 +4,13 @@ export const apiBase = (
 
 export function mediaSrc(url: string) {
   if (!url) return ''
-  if (/^https?:\/\//i.test(url) || url.startsWith('data:')) return url
-  if (url.startsWith('/uploads/')) return `${apiBase}${url}`
-  if (url.startsWith('/')) return `https://www.jhomes.in${url}`
-  return url
+  let path = url.trim()
+  const local = path.match(/^https?:\/\/(?:localhost|127\.0\.0\.1)(?::\d+)?(\/.*)?$/i)
+  if (local) path = local[1] || '/'
+  if (/^https?:\/\//i.test(path) || path.startsWith('data:')) return path
+  if (path.startsWith('/uploads/')) return `${apiBase}${path}`
+  if (path.startsWith('/')) return `https://www.jhomes.in${path}`
+  return path
 }
 
 const TOKEN_KEY = 'jhomes-admin-token'
